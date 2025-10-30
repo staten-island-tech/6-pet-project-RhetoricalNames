@@ -15,7 +15,7 @@ Adventurer.buy({"title": "Sword", "atk": 1})
 print(Adventurer.__dict__) """
 
 #L2
-class User: #Parent class
+""" class User: #Parent class
     def __init__(self, name, email):
         self.name = name
         self.email = email
@@ -31,25 +31,29 @@ class Student(User): #Child class, calls parent class
     def display_info(self):
         print(f"Student: {self.name}, Email: {self.email}, Student ID: {self.student_id}")
 studentthing = Student("csmajor", "csmajor@email.com", "1234567890")
-studentthing.display_info()
-""" class Pet:
+studentthing.display_info() """
+class Pet:
     def __init__(self, name, happiness, hunger):
         self.name = name
         self.__happiness = happiness
         self.__hunger = hunger
 
     def play(self, time):
-        self.__happiness += (random.randint(5,10) + time)
-        self.__hunger += (random.randint(5,10) + time)/(2)
+        playing = (random.randint(5,10) + time)
+        self.__happiness += playing
+        self.__hunger += (playing/2)
+        print(f"Happiness increased by {playing}. Hunger also increased by {(playing/2)}.")
 
     def feed(self, food):
-        self.__hunger -= (random.randint(10, 20) - food)
+        feed = (random.randint(10, 20) + food)
+        self.__hunger -= feed
         if self.__hunger < 0:
             self.__hunger = 0
+        print(f"Hunger decreased by {feed}.")
 
     def status(self):
-        print(Pikachu.__happiness)
+        print(Pikachu.__dict__)
 Pikachu = Pet("Pikachu", 10, 0)
 Pikachu.play(5)
 Pikachu.feed(10)
-Pikachu.status() """
+Pikachu.status()
