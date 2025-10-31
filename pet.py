@@ -33,27 +33,73 @@ class Student(User): #Child class, calls parent class
 studentthing = Student("csmajor", "csmajor@email.com", "1234567890")
 studentthing.display_info() """
 class Pet:
-    def __init__(self, name, happiness, hunger):
+    def __init__(self, name, happiness, hunger, hygiene, rest, thirst, age):
         self.name = name
         self.__happiness = happiness
         self.__hunger = hunger
+        self.__hygiene = hygiene
+        self.__rest = rest
+        self.__thirst = thirst
+        self.__age = age
 
-    def play(self, time):
-        playing = (random.randint(5,10) + time)
+    def play(self):
+        playing = (random.randint(5,15))
         self.__happiness += playing
         self.__hunger += (playing/2)
-        print(f"Happiness increased by {playing}. Hunger also increased by {(playing/2)}.")
+        self.__hygiene -= playing
+        self.__rest -= 5
+        self.__age += 1
+        print(f"Happiness increased by {playing}. Hunger increased by {(playing/2)}, and hygiene decreased by {playing}.")
 
-    def feed(self, food):
-        feed = (random.randint(10, 20) + food)
+    def feed(self):
+        feed = random.randint(10, 20)
         self.__hunger -= feed
+        self.__hygiene -= 5
+        self.__rest -= 5
+        self.__age += 1
         if self.__hunger < 0:
             self.__hunger = 0
-        print(f"Hunger decreased by {feed}.")
+        print(f"Hunger decreased to {self.__hunger}. Hygiene decreased by 5.")
+    
+    def clean(self):
+        self.__hygiene += 15
+        self.__happiness -= 5
+        self.__age += 1
+        self.__rest -= 5
+        if self.__hygiene > 50:
+            self.__hygiene = 50
+        print(f"Hygiene increased to {self.__hygiene}. Happiness decreased to {self.__happiness}.")
+
+    def sleep(self):
+        self.__rest += 20
+        self.__hygiene -= 5
+        self.__hunger += 10
+        self.__thirst += 10
+        self.__age += 1
+        print(f"Rest increased by {self.__rest}. Hygiene decreased by 5, hunger and thirst increased by 10.")
+
+    def drink(self):
+        self.__thirst -= 15
+        self.__hygiene -= 5
+        self.__rest -= 5
+        self.__age += 1
+        print(f"Thirst decreased by 15. Hygiene also decreased by 5.")
 
     def status(self):
-        print(Pikachu.__dict__)
-Pikachu = Pet("Pikachu", 10, 0)
-Pikachu.play(5)
-Pikachu.feed(10)
-Pikachu.status()
+        print(monster.__dict__)
+monster = Pet("Maneater", 10, 0, 50, 0, 0)
+
+options = [{
+    "Play",
+    "Feed",
+    "Clean",
+    "Sleep",
+    "Drink"
+}]
+status = "Not grown"
+while status == "Not grown":
+    for index, item in enumerate(options, start = 1):
+        print(index, ":", item)
+monster.play()
+monster.feed()
+monster.status()
