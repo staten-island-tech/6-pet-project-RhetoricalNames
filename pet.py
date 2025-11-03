@@ -34,7 +34,7 @@ studentthing = Student("csmajor", "csmajor@email.com", "1234567890")
 studentthing.display_info() """
 class Pet:
     def __init__(self, name, happiness, hunger, hygiene, rest, thirst, age):
-        self.name = name
+        self.__name = name
         self.__happiness = happiness
         self.__hunger = hunger
         self.__hygiene = hygiene
@@ -86,20 +86,24 @@ class Pet:
         print(f"Thirst decreased by 15. Hygiene also decreased by 5.")
 
     def status(self):
-        print(monster.__dict__)
-monster = Pet("Maneater", 10, 0, 50, 0, 0)
+        print(self.__dict__)
 
 options = [{
-    "Play",
-    "Feed",
-    "Clean",
-    "Sleep",
-    "Drink"
-}]
-status = "Not grown"
-while status == "Not grown":
+    "Play"},
+    {"Feed"},
+    {"Clean"},
+    {"Sleep"},
+    {"Drink"},
+    {"Check pet status"}]
+pet_status = "Not grown."
+pet = Pet("name not given", 10, 0, 50, 25, 50, 5)
+pet.__name = input("You are taking care of a creature you found while scavenging. Your goal is to keep it happy, for as long as possible. What would you like to name it?")
+pet.__age = 5
+while pet_status == "Not grown.":
     for index, item in enumerate(options, start = 1):
         print(index, ":", item)
-monster.play()
-monster.feed()
-monster.status()
+    choice = input(f"What would you like to do? '{pet.__name}' is {pet.__age} days old.")
+    choice = int(choice)
+    choice -= 1
+    print(f"You selected {options[choice]}.")
+    print(pet.__dict__)
