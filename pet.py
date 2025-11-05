@@ -33,7 +33,7 @@ class Student(User): #Child class, calls parent class
 studentthing = Student("csmajor", "csmajor@email.com", "1234567890")
 studentthing.display_info() """
 class Pet:
-    def __init__(self, name, happiness, hunger, hygiene, rest, thirst, age):
+    def __init__(self, name, happiness, hunger, hygiene, rest, thirst, age, growth):
         self.__name = name
         self.__happiness = happiness
         self.__hunger = hunger
@@ -41,6 +41,7 @@ class Pet:
         self.__rest = rest
         self.__thirst = thirst
         self.__age = age
+        self.__growth = growth
 
     def play(self):
         playing = (random.randint(5,15))
@@ -85,25 +86,43 @@ class Pet:
         self.__age += 1
         print(f"Thirst decreased by 15. Hygiene also decreased by 5.")
 
-    def status(self):
+    def self_status(self):
         print(self.__dict__)
 
-options = [{
-    "Play"},
-    {"Feed"},
-    {"Clean"},
-    {"Sleep"},
-    {"Drink"},
-    {"Check pet status"}]
-pet_status = "Not grown."
-pet = Pet("name not given", 10, 0, 50, 25, 50, 5)
+    def happiness_check(self):
+        if self.__happiness <= -10:
+            self.__growth = "Grown."
+
+options = [{"Play"}, {"Feed"}, {"Clean"}, {"Sleep"}, {"Drink"}, {"Check pet status"}]
+pet = Pet("Name not given!", 20, 0, 50, 25, 50, 5)
+pet.__growth = "Not grown."
 pet.__name = input("You are taking care of a creature you found while scavenging. Your goal is to keep it happy, for as long as possible. What would you like to name it?")
 pet.__age = 5
-while pet_status == "Not grown.":
+while pet.__growth == "Not grown.":
     for index, item in enumerate(options, start = 1):
         print(index, ":", item)
     choice = input(f"What would you like to do? '{pet.__name}' is {pet.__age} days old.")
-    choice = int(choice)
-    choice -= 1
-    print(f"You selected {options[choice]}.")
-    print(pet.__dict__)
+    if not choice.isdigit():
+        print("Invalid input. Please try again.")
+    else:
+        choice = int(choice)
+    if choice == 1:
+        pet.play()
+    elif choice == 2:
+        pet.feed()
+        pet.happiness_check()
+    elif choice == 3:
+        pet.clean()
+        pet.happiness_check()
+    elif choice == 4:
+        pet.sleep()
+    elif choice == 5:
+        pet.drink()
+        pet.happiness_check()
+    elif choice == 6:
+        pet.self_status()
+"""     print(f"You selected {options[choice]}.")
+    print(pet.__dict__[choice]) """
+""" def guard_clause(a, b):
+    a = 1 if b["class"] else 0
+    return cost * (1 - a) """
