@@ -34,74 +34,92 @@ studentthing = Student("csmajor", "csmajor@email.com", "1234567890")
 studentthing.display_info() """
 class Pet:
     def __init__(self, name, happiness, hunger, hygiene, rest, thirst, age, growth):
-        self.__name = name
-        self.__happiness = happiness
-        self.__hunger = hunger
-        self.__hygiene = hygiene
-        self.__rest = rest
-        self.__thirst = thirst
-        self.__age = age
-        self.__growth = growth
+        self.name = name
+        self.happiness = happiness
+        self.hunger = hunger
+        self.hygiene = hygiene
+        self.rest = rest
+        self.thirst = thirst
+        self.age = age
+        self.growth = growth
 
     def play(self):
         playing = (random.randint(5,15))
-        self.__happiness += playing
-        self.__hunger += (playing/2)
-        self.__hygiene -= playing
-        self.__rest -= 5
-        self.__age += 1
-        print(f"Happiness increased by {playing}. Hunger increased by {(playing/2)}, and hygiene decreased by {playing}.")
+        self.happiness += playing
+        self.hunger += (playing/2)
+        self.hygiene -= playing
+        self.rest -= 5
+        self.age += 1
+        print(f"Happiness increased to {self.happiness}. Hunger increased to {self.hunger}, and hygiene decreased to {self.hygiene}.")
 
     def feed(self):
         feed = random.randint(10, 20)
-        self.__hunger -= feed
-        self.__hygiene -= 5
-        self.__rest -= 5
-        self.__age += 1
-        if self.__hunger < 0:
-            self.__hunger = 0
-        print(f"Hunger decreased to {self.__hunger}. Hygiene decreased by 5.")
+        self.hunger -= feed
+        self.hygiene -= 5
+        self.rest -= 5
+        self.age += 1
+        if self.hunger < 0:
+            self.hunger = 0
+        print(f"Hunger decreased to {self.hunger}. Hygiene decreased to {self.hygiene}.")
     
     def clean(self):
-        self.__hygiene += 15
-        self.__happiness -= 5
-        self.__age += 1
-        self.__rest -= 5
-        if self.__hygiene > 50:
-            self.__hygiene = 50
-        print(f"Hygiene increased to {self.__hygiene}. Happiness decreased to {self.__happiness}.")
+        self.hygiene += 15
+        self.happiness -= 5
+        self.age += 1
+        self.rest -= 5
+        if self.hygiene > 50:
+            self.hygiene = 50
+        print(f"Hygiene increased to {self.hygiene}. Happiness decreased to {self.happiness}.")
 
     def sleep(self):
-        self.__rest += 20
-        self.__hygiene -= 5
-        self.__hunger += 10
-        self.__thirst += 10
-        self.__age += 1
-        print(f"Rest increased by {self.__rest}. Hygiene decreased by 5, hunger and thirst increased by 10.")
+        self.rest += 20
+        self.hygiene -= 5
+        self.hunger += 10
+        self.thirst += 10
+        self.age += 1
+        print(f"Rest increased to {self.rest}. Hygiene decreased to {self.hygiene}, hunger increased to {self.hunger} and thirst to {self.thirst}.")
 
     def drink(self):
-        self.__thirst -= 15
-        self.__hygiene -= 5
-        self.__rest -= 5
-        self.__age += 1
-        print(f"Thirst decreased by 15. Hygiene also decreased by 5.")
+        self.thirst -= 15
+        self.hygiene -= 5
+        self.rest -= 5
+        self.age += 1
+        print(f"Thirst decreased to {self.thirst}. Hygiene also decreased to {self.hygiene}.")
 
     def self_status(self):
-        print(self.__dict__)
+        print(f"Happiness: {self.happiness}. Hunger: {self.hunger}/75. Hygiene: {self.hygiene}/50. Rest: {self.rest}/40. Thirst: {self.thirst}/75.")
 
-    def happiness_check(self):
-        if self.__happiness <= -10:
-            self.__growth = "Grown."
+    def self_check(self):
+        if self.hunger >= 125:
+            print(f"'{self.name}' starved to death!")
+            self.growth = "Dead"
+        if self.thirst >= 125:
+            print(f"'{self.name}' died of thirst!")
+            self.growth = "Dead"
+        if self.hunger >= 75:
+            self.happiness -= 10
+            print(f"'{self.name}' is starving! Happiness decreased to {self.happiness}.")
+        if self.thirst >= 75:
+            self.happiness -= 10
+            print(f"'{self.name}' needs water! Happiness decreased to {self.happiness}.")
+        if self.rest <= 0:
+            self.rest += 20
+            self.happiness -= 25
+            print(f"'{self.name}' needs to rest! Happiness decreased to {self.happiness}.")
+        if self.hygiene >= 50:
+            self.happiness -= 15
+            print(f"'{self.name}' is very dirty! Happiness decreased to {self.happiness},")
+        if self.happiness <= 0:
+            self.growth = "Grown"
+            print(f"{self.name}'s happiness dropped too low, and grew to adult size!")
 
 options = [{"Play"}, {"Feed"}, {"Clean"}, {"Sleep"}, {"Drink"}, {"Check pet status"}]
-pet = Pet("Name not given!", 20, 0, 50, 25, 50, 5)
-pet.__growth = "Not grown."
-pet.__name = input("You are taking care of a creature you found while scavenging. Your goal is to keep it happy, for as long as possible. What would you like to name it?")
-pet.__age = 5
-while pet.__growth == "Not grown.":
+pet = Pet("Name not given!", 20, 30, 50, 25, 30, 0, "Not grown")
+pet.name = input("You are taking care of a creature you found while scavenging. Your goal is to keep it alive and happy. What would you like to name it?")
+while pet.growth == "Not grown":
     for index, item in enumerate(options, start = 1):
         print(index, ":", item)
-    choice = input(f"What would you like to do? '{pet.__name}' is {pet.__age} days old.")
+    choice = input(f"What would you like to do? '{pet.name}' is {pet.age} days old.")
     if not choice.isdigit():
         print("Invalid input. Please try again.")
     else:
@@ -110,15 +128,15 @@ while pet.__growth == "Not grown.":
         pet.play()
     elif choice == 2:
         pet.feed()
-        pet.happiness_check()
+        pet.self_check()
     elif choice == 3:
         pet.clean()
-        pet.happiness_check()
+        pet.self_check()
     elif choice == 4:
         pet.sleep()
     elif choice == 5:
         pet.drink()
-        pet.happiness_check()
+        pet.self_check()
     elif choice == 6:
         pet.self_status()
 """     print(f"You selected {options[choice]}.")
