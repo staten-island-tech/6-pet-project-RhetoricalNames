@@ -87,7 +87,7 @@ class Pet:
             print(f"{self.name}'s happiness dropped too low!")
         print(f"Happiness: {self.happiness}. Hunger: {self.hunger}/75. Hygiene: {self.hygiene}/50. Rest: {self.rest}/60. Thirst: {self.thirst}/75.")
 
-options = [{"Play"}, {"Feed"}, {"Clean"}, {"Sleep"}, {"Drink"}]
+options = ["Play", "Feed", "Clean", "Sleep", "Drink"]
 pet = Pet("Name not given!", 20, 30, 50, 25, 30, 0, "Not grown")
 pet.name = input("You are taking care of a creature you found while scavenging. Your goal is to keep it alive and happy. What would you like to name it?")
 print("Here are your options: (Note - most actions decrease happiness - choose wisely!)")
