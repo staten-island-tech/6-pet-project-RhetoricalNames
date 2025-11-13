@@ -1,6 +1,6 @@
 import random
 class Pet:
-    def __init__(self, name, happiness, hunger, hygiene, rest, thirst, age, status):
+    def __init__(self, name, happiness, hunger, hygiene, rest, thirst, age, money, status):
         self.name = name
         self.happiness = happiness
         self.hunger = hunger
@@ -8,6 +8,7 @@ class Pet:
         self.rest = rest
         self.thirst = thirst
         self.age = age
+        self.money = money
         self.status = status
 
     def play(self):
@@ -16,16 +17,14 @@ class Pet:
         self.hunger += (playing/2)
         self.hygiene -= playing
         self.rest -= 5
-        self.age += 1
         print(f"You play with '{self.name}', increasing happiness to {self.happiness}. Hunger increased to {self.hunger}, hygiene decreased to {self.hygiene}, and happiness to {self.happiness}.")
 
     def feed(self):
-        money -= 15 if money >= 15 else print(f"You can't afford to feed your pet. You need ${15 - money} more.")
+        self.money -= 20 if self.money >= 20 else print(f"You can't afford to feed your pet. You need ${20 - self.money} more.")
         feed = random.randint(10, 20)
         self.hunger -= feed
         self.hygiene -= 5
         self.rest -= 5
-        self.age += 1
         self.happiness -= 5
         if self.hunger < 0:
             self.hunger = 0
@@ -34,7 +33,6 @@ class Pet:
     def clean(self):
         self.hygiene += 15
         self.happiness -= 5
-        self.age += 1
         self.rest -= 5
         if self.hygiene > 50:
             self.hygiene = 50
@@ -48,23 +46,31 @@ class Pet:
         self.hunger += 10
         self.thirst += 10
         self.happiness -= 5
-        self.age += 1
         if self.rest > 60:
             self.rest = 60
         print(f"'{self.name}' sleeps. Rest increased to {self.rest}. Hygiene decreased to {self.hygiene}, happiness decreased to {self.happiness}, hunger increased to {self.hunger} and thirst to {self.thirst}.")
+    
     def drink(self):
-        money -= 10 if money >= 10 else print(f"You can't afford water for your pet. You need ${10 - money} more.")
-
+        self.money -= 10 if self.money >= 10 else print(f"You can't afford water for your pet. You need ${10 - self.money} more.")
         self.thirst -= 15
         self.hygiene -= 5
         self.rest -= 5
-        self.age += 1
         self.happiness -= 5
         if self.thirst < 0:
             self.thirst = 0
         print(f"'{self.name}' drinks water. Thirst decreased to {self.thirst}. Hygiene and happiness decreased to {self.hygiene} and {self.happiness}.")
 
-    def self_check(self):
+    def work(self):
+        profit = random.randint(10, 30)
+        pet.money += profit
+        pet.happiness -= 2
+        pet.thirst += 5
+        pet.hunger += 5
+        pet.hygiene -= 5
+        print(f"You sold some items you scavenged for ${profit}.")
+
+    def endofday(self):
+        self.age += 1
         if self.hunger >= 125:
             print(f"'{self.name}' starved to death!")
             self.status = "Dead"
@@ -87,12 +93,11 @@ class Pet:
         if self.happiness <= 0:
             self.status = "Grown"
             print(f"{self.name}'s happiness dropped too low!")
-        print(f"Happiness: {self.happiness}. Hunger: {self.hunger}/75. Hygiene: {self.hygiene}/50. Rest: {self.rest}/60. Thirst: {self.thirst}/75. You have {money} dollars.")
-money = 0
-injuries = 1
-options = ["Play", "Feed", "Clean", "Sleep", "Drink", "Work", "Quit game (Abandon)"]
-pet = Pet("Name not given!", 20, 30, 50, 25, 30, 0, "Not grown")
+        print(f"Happiness: {self.happiness}. Hunger: {self.hunger}/75. Hygiene: {self.hygiene}/50. Rest: {self.rest}/60. Thirst: {self.thirst}/75. You have {self.money} dollars.")
+options = ["Play", "Feed ($20)", "Clean", "Sleep", "Drink", "Work"]
+pet = Pet("Name not given!", 20, 30, 50, 25, 30, 0, 0, "Not grown")
 pet.name = input("You are taking care of a creature you found while scavenging. Your goal is to keep it alive and happy. What would you like to name it?")
+pet.money = 0
 print("Here are your options: (Note - most actions decrease happiness - choose wisely!)")
 while pet.status == "Not grown":
     for index, item in enumerate(options, start = 1):
@@ -104,36 +109,22 @@ while pet.status == "Not grown":
         choice = int(choice)
     if choice == 1:
         pet.play()
-        pet.self_check()
+        pet.endofday()
     elif choice == 2:
         pet.feed()
-        pet.self_check()
+        pet.endofday()
     elif choice == 3:
         pet.clean()
-        pet.self_check()
+        pet.endofday()
     elif choice == 4:
         pet.sleep()
-        pet.self_check()
+        pet.endofday()
     elif choice == 5:
         pet.drink()
-        pet.self_check()
+        pet.endofday()
     elif choice == 6:
-        if random.randint(1, 15) == 1:
-            injuries += 1
-            print("While looking for scrap, you were injured.")
-        if injuries >= 3:
-            print("You are too injured to continue going outside. You can no longer work.")
-        else:
-            profit = (random.randint(10, 30)/injuries)
-            money += profit
-            pet.happiness -= 2
-            pet.thirst += 5
-            pet.hunger += 5
-            pet.self_check()
-            print(f"You sold some items you scavenged for ${profit}.")
-    elif choice == 7:
-        print(f"You left '{pet.name}' behind, how could you?")
-        quit()
+        pet.work()
+        pet.endofday()
 """     print(f"You selected {options[choice]}.")
     print(pet.__dict__[choice]) """
 """ def guard_clause(a, b):
